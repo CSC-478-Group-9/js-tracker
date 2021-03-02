@@ -27,11 +27,12 @@ class JSTracker {
 
   bindEvents() {
     const tracker = this;
-
+    /*
     // Bind error Event
     window.addEventListener("error", function (e) {
       tracker.addErrorEvent(e);
     });
+     */
 
     // Bind onbeforeunload Event
     window.onbeforeunload = function () {
@@ -53,7 +54,7 @@ class JSTracker {
         lineno: e.lineno,
         colno: e.colno,
         errorObj: e.error,
-        createdAt: new Date(),
+        createdAt: new Date().now,
       };
 
     // Insert into Records Array
@@ -77,28 +78,19 @@ class JSTracker {
       type: "session",
       anonymousID: cookie("tracking_web_uid"),
       loadTime: tracker.loadTime,
-      unloadTime: new Date(),
+      unloadTime: new Date().now,
       language: window.navigator.language,
       platform: window.navigator.platform,
       port: window.location.port,
       referer: document.referrer,
-      clientStart: {
-        name: window.navigator.appVersion,
-        innerWidth: window.innerWidth,
-        innerHeight: window.innerHeight,
-        outerWidth: window.outerWidth,
-        outerHeight: window.outerHeight,
-      },
-      page: {
-        location: window.location.pathname,
-        href: window.location.href,
-        origin: window.location.origin,
-        title: document.title,
-      },
+      location: window.location.pathname,
+      href: window.location.href,
+      origin: window.location.origin,
+      title: document.title,
       endpoint: tracker.endpoint,
     };
 
-    this.sendEvent(JSON.stringify(tracker.session));
+    this.sendEvent(tracker.session);
 
     return tracker;
   }
@@ -107,15 +99,7 @@ class JSTracker {
     const tracker = this;
 
     // Assign Session Properties
-    tracker.session.unloadTime = new Date();
-    tracker.session.interactions = tracker.records;
-    tracker.session.clientEnd = {
-      name: window.navigator.appVersion,
-      innerWidth: window.innerWidth,
-      innerHeight: window.innerHeight,
-      outerWidth: window.outerWidth,
-      outerHeight: window.outerHeight,
-    };
+    tracker.session.unloadTime = new Date().now;
 
     return tracker;
   }
