@@ -19,6 +19,8 @@ class JSTracker {
       (tracker.session = {}),
       (tracker.loadTime = new Date());
 
+    this.apiKey = config.apiKey;
+
     this.startSession();
     this.bindEvents();
 
@@ -49,6 +51,7 @@ class JSTracker {
       // Error Object
       error = {
         type: "error",
+        apiKey: this.apiKey,
         message: e.message,
         source: e.source,
         lineno: e.lineno,
@@ -76,6 +79,7 @@ class JSTracker {
     // Assign Session Property
     tracker.session = {
       type: "session",
+      apiKey: this.apiKey,
       anonymousID: cookie("tracking_web_uid"),
       loadTime: tracker.loadTime,
       unloadTime: new Date().now,
