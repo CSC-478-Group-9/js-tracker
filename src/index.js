@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 class JSTracker {
   constructor(config) {
+    // generate cookie if none exists with uuid
     if (!cookie("tracking_web_uid")) {
       cookie("tracking_web_uid", uuidv4());
     }
@@ -30,7 +31,7 @@ class JSTracker {
   bindEvents() {
     const tracker = this;
     /*
-    // Bind error Event
+    // Bind error Event (currently disabled)
     window.addEventListener("error", function (e) {
       tracker.addErrorEvent(e);
     });
